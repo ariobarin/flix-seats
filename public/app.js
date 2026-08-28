@@ -3,7 +3,6 @@ const state = {
   destination: null,
   trips: [],
   stations: {},
-  adults: 1,
   currentTrip: null,
   seatLayouts: [],
   activeLeg: 0
@@ -16,13 +15,11 @@ const elements = {
   originOptions: document.querySelector("#origin-options"),
   destinationOptions: document.querySelector("#destination-options"),
   date: document.querySelector("#date"),
-  adults: document.querySelector("#adults"),
   timeFrom: document.querySelector("#time-from"),
   timeTo: document.querySelector("#time-to"),
   directOnly: document.querySelector("#direct-only"),
   sort: document.querySelector("#sort"),
   formError: document.querySelector("#form-error"),
-  resultCount: document.querySelector("#result-count"),
   empty: document.querySelector("#empty-state"),
   loading: document.querySelector("#loading"),
   results: document.querySelector("#results"),
@@ -137,7 +134,6 @@ async function searchTrips(event) {
     return showError("Origin and destination must be different.");
   }
 
-  state.adults = Number(elements.adults.value);
   setSearching(true);
 
   try {
@@ -147,7 +143,7 @@ async function searchTrips(event) {
       from_city_id: state.origin.id,
       to_city_id: state.destination.id,
       departure_date: `${day}.${month}.${year}`,
-      products: JSON.stringify({ adult: state.adults }),
+      products: JSON.stringify({ adult: 1 }),
       currency: "CAD",
       locale: "en_CA",
       search_by: "cities",
@@ -182,12 +178,10 @@ function renderTrips() {
     .sort(sortTrips(elements.sort.value));
 
   elements.results.replaceChildren(...trips.map(tripCard));
-  elements.resultCount.textContent = state.trips.length ? `${trips.length} of ${state.trips.length} trips` : "No trips found";
   elements.empty.hidden = state.trips.length > 0 || !elements.loading.hidden;
 
   if (!state.trips.length && elements.loading.hidden) {
-    elements.empty.querySelector("h3").textContent = "No departures found";
-    elements.empty.querySelector("p").textContent = "Try another date, route, or passenger count.";
+    elements.empty.querySelector("p").textContent = "No departures found. Try another date or route.";
   }
 }
 
@@ -269,7 +263,7 @@ async function loadSeats() {
           rideId: leg.ride_id,
           fromId: leg.departure.station_id,
           toId: leg.arrival.station_id,
-          adults: state.adults
+          adults: 1
         })
       });
       return { leg, data };
@@ -417,7 +411,6 @@ function setSearching(searching) {
   elements.loading.hidden = !searching;
   elements.empty.hidden = searching || state.trips.length > 0;
   elements.form.querySelector("button[type=submit]").disabled = searching;
-  elements.resultCount.textContent = searching ? "Searching..." : elements.resultCount.textContent;
 }
 
 function stationName(id) {

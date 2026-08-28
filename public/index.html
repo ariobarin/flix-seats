@@ -8,15 +8,9 @@
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
-    <header class="topbar">
-      <a class="brand" href="#top" aria-label="Seat Finder home">FLIX<span>BUS</span></a>
-      <p>Live seat availability</p>
-    </header>
-
     <main id="top">
       <section class="search-area" aria-labelledby="search-title">
         <div class="search-heading">
-          <p>Plan your journey</p>
           <h1 id="search-title">Find a trip and check its seats</h1>
         </div>
 
@@ -46,18 +40,6 @@
               <div class="input-shell"><span aria-hidden="true">▣</span><input id="date" type="date" required></div>
             </div>
 
-            <div class="field passenger-field">
-              <label for="adults">Passengers</label>
-              <select id="adults">
-                <option value="1">1 Adult</option>
-                <option value="2">2 Adults</option>
-                <option value="3">3 Adults</option>
-                <option value="4">4 Adults</option>
-                <option value="5">5 Adults</option>
-                <option value="6">6 Adults</option>
-              </select>
-            </div>
-
             <button class="search-button" type="submit">Search</button>
           </div>
 
@@ -79,18 +61,8 @@
         </form>
       </section>
 
-      <section class="results-area" aria-labelledby="results-title">
-        <div class="results-heading">
-          <div>
-            <p class="eyebrow">Departures</p>
-            <h2 id="results-title">Choose a trip</h2>
-          </div>
-          <p id="result-count">Search to see live trips</p>
-        </div>
-
+      <section class="results-area" aria-label="Trip results">
         <div id="empty-state" class="empty-state">
-          <div class="bus-mark" aria-hidden="true">▰</div>
-          <h3>Start with a route</h3>
           <p>Pick cities and a date. Available departures will appear here.</p>
         </div>
 
