@@ -12,7 +12,9 @@ Live at [flix.ariobarin.com](https://flix.ariobarin.com).
 
 ## Deploy
 
-Run `vercel --prod`. Add a custom subdomain with `vercel domains add flix.ariobarin.com flixbus-seat-finder`, then create the DNS record reported by `vercel domains inspect flix.ariobarin.com`.
+GitHub Actions runs `npm run check` for pushes to `main` and for pull requests. Vercel creates previews for branches and deploys `main` to production automatically.
+
+For a new Vercel project, run `vercel --prod` once. Add a custom subdomain with `vercel domains add flix.ariobarin.com flixbus-seat-finder`, then create the DNS record reported by `vercel domains inspect flix.ariobarin.com`.
 
 The UI is entirely static. City autocomplete and trip search run directly from the browser. A single stateless Vercel Function proxies seat maps because that FlixBus endpoint does not permit cross-origin browser requests.
 
