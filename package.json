@@ -1,0 +1,13 @@
+{
+  "name": "flixbus-seat-finder",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Search FlixBus trips and view live seat availability.",
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check server.js && node --check public/app.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
