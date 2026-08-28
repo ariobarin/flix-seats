@@ -2,12 +2,19 @@
 
 Search FlixBus trips by origin, destination, date, time, and passengers. Open any result to see the live vehicle layout and available seats.
 
-## Run
+Live at [flix.ariobarin.com](https://flix.ariobarin.com).
 
-1. Install Node.js 20 or newer.
-2. Open a terminal in this folder.
-3. Run `npm start`.
-4. Open `http://127.0.0.1:4173`.
+## Develop
+
+1. Install Node.js 20 or newer and the Vercel CLI.
+2. Run `vercel link` once.
+3. Run `npm run dev`.
+
+## Deploy
+
+Run `vercel --prod`. Add a custom subdomain with `vercel domains add flix.ariobarin.com flixbus-seat-finder`, then create the DNS record reported by `vercel domains inspect flix.ariobarin.com`.
+
+The UI is entirely static. City autocomplete and trip search run directly from the browser. A single stateless Vercel Function proxies seat maps because that FlixBus endpoint does not permit cross-origin browser requests.
 
 The app is read-only. It queries FlixBus search and seat-map endpoints but does not select seats, create a cart, or submit a booking. Availability can change at any time.
 

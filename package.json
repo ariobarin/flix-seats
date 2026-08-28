@@ -4,10 +4,10 @@
   "private": true,
   "description": "Search FlixBus trips and view live seat availability.",
   "scripts": {
-    "start": "node server.js",
-    "check": "node --check server.js && node --check public/app.js"
+    "dev": "vercel dev",
+    "check": "node --check api/seats.mjs && node --check public/app.js"
   },
   "engines": {
-    "node": ">=20"
+    "node": "20.x"
   }
 }

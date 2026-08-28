@@ -74,7 +74,24 @@ function setupAutocomplete(name) {
 async function loadLocations(name, query) {
   const options = elements[`${name}Options`];
   try {
-    const cities = await getJson(`/api/locations?q=${encodeURIComponent(query)}`);
+    const url = new URL("https://global.api.flixbus.com/search/autocomplete/cities");
+    url.search = new URLSearchParams({
+      q: query,
+      lang: "en_CA",
+      country: "ca",
+      flixbus_cities_only: "false",
+      is_train_only: "false",
+      stations: "true",
+      popular_stations: "true",
+      popular_stations_count: "null",
+      disabled_countries: ""
+    });
+    const cities = (await getJson(url)).slice(0, 8).map(city => ({
+      id: city.id,
+      name: city.name,
+      country: city.country?.toUpperCase(),
+      stations: city.stations?.length || 0
+    }));
     if (elements[name].value.trim() !== query) return;
     options.replaceChildren(...cities.map(city => cityOption(name, city)));
     options.hidden = cities.length === 0;
@@ -124,13 +141,22 @@ async function searchTrips(event) {
   setSearching(true);
 
   try {
-    const params = new URLSearchParams({
-      fromId: state.origin.id,
-      toId: state.destination.id,
-      date: elements.date.value,
-      adults: state.adults
+    const [year, month, day] = elements.date.value.split("-");
+    const url = new URL("https://global.api.flixbus.com/search/service/v4/search");
+    url.search = new URLSearchParams({
+      from_city_id: state.origin.id,
+      to_city_id: state.destination.id,
+      departure_date: `${day}.${month}.${year}`,
+      products: JSON.stringify({ adult: state.adults }),
+      currency: "CAD",
+      locale: "en_CA",
+      search_by: "cities",
+      include_after_midnight_rides: "1",
+      disable_distribusion_trips: "0",
+      disable_global_trips: "0",
+      disable_trips: "[]"
     });
-    const data = await getJson(`/api/trips?${params}`);
+    const data = await getJson(url);
     state.trips = (data.trips || []).flatMap(group => Object.values(group.results || {}));
     state.stations = data.stations || {};
     renderTrips();
