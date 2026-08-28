@@ -6,7 +6,7 @@ Live at [flix.ariobarin.com](https://flix.ariobarin.com).
 
 ## Develop
 
-1. Install Node.js 20 or newer and the Vercel CLI.
+1. Install Node.js 24 and the Vercel CLI.
 2. Run `vercel link` once.
 3. Run `npm run dev`.
 
