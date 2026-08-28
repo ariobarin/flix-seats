@@ -1,99 +1,42 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Search FlixBus trips and view live seat availability.">
-    <title>FlixBus Seat Finder</title>
-    <link rel="stylesheet" href="styles.css">
-  </head>
-  <body>
-    <main id="top">
-      <section class="search-area" aria-labelledby="search-title">
-        <div class="search-heading">
-          <h1 id="search-title">Find a trip and check its seats</h1>
-        </div>
-
-        <form id="search-form" class="search-card">
-          <div class="trip-type" aria-label="Trip type">
-            <span class="radio-dot" aria-hidden="true"></span>
-            <strong>One Way</strong>
-          </div>
-
-          <div class="primary-fields">
-            <div class="field autocomplete-field">
-              <label for="origin">From</label>
-              <div class="input-shell"><span aria-hidden="true">●</span><input id="origin" autocomplete="off" placeholder="City or station" required></div>
-              <div id="origin-options" class="suggestions" role="listbox" hidden></div>
-            </div>
-
-            <button id="swap" class="swap" type="button" aria-label="Swap departure and arrival">⇄</button>
-
-            <div class="field autocomplete-field">
-              <label for="destination">To</label>
-              <div class="input-shell"><span aria-hidden="true">●</span><input id="destination" autocomplete="off" placeholder="City or station" required></div>
-              <div id="destination-options" class="suggestions" role="listbox" hidden></div>
-            </div>
-
-            <div class="field">
-              <label for="date">Departure</label>
-              <div class="input-shell"><span aria-hidden="true">▣</span><input id="date" type="date" required></div>
-            </div>
-
-            <button class="search-button" type="submit">Search</button>
-          </div>
-
-          <div class="filters">
-            <span class="filter-label">Filters</span>
-            <label>Leave after <input id="time-from" type="time" value="00:00"></label>
-            <label>Leave before <input id="time-to" type="time" value="23:59"></label>
-            <label class="check"><input id="direct-only" type="checkbox"> <span>Direct only</span></label>
-            <label>Sort by
-              <select id="sort">
-                <option value="departure">Departure</option>
-                <option value="price">Lowest price</option>
-                <option value="duration">Shortest trip</option>
-              </select>
-            </label>
-          </div>
-
-          <p id="form-error" class="form-error" role="alert" hidden></p>
-        </form>
-      </section>
-
-      <section class="results-area" aria-label="Trip results">
-        <div id="empty-state" class="empty-state">
-          <p>Pick cities and a date. Available departures will appear here.</p>
-        </div>
-
-        <div id="loading" class="loading" hidden><span></span>Checking FlixBus departures...</div>
-        <div id="results" class="results" aria-live="polite"></div>
-      </section>
-    </main>
-
-    <div id="backdrop" class="backdrop" hidden></div>
-    <aside id="seat-panel" class="seat-panel" aria-labelledby="seat-title" hidden>
-      <header class="seat-header">
-        <div>
-          <h2 id="seat-title">Seat Reservation</h2>
-          <p id="seat-route"></p>
-        </div>
-        <button id="close-panel" type="button" aria-label="Close seat map">×</button>
-      </header>
-
-      <div id="leg-tabs" class="leg-tabs" role="tablist"></div>
-      <div id="seat-loading" class="seat-loading"><span></span>Loading the vehicle...</div>
-      <div id="seat-error" class="seat-error" hidden></div>
-      <div id="seat-content" hidden>
-        <div id="seat-legend" class="seat-legend"></div>
-        <div id="vehicle" class="vehicle" aria-label="Seatmap"></div>
-        <footer class="seat-footer">
-          <div><strong id="available-count">0 seats available</strong><span>Live snapshot from FlixBus</span></div>
-          <button id="refresh-seats" type="button">Refresh</button>
-        </footer>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Search FlixBus trips and view live seat availability.">
+  <title>FlixBus Seat Finder</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main>
+  <section class="search" aria-labelledby="title">
+    <h1 id="title">Find a trip and check its seats</h1>
+    <form id="form">
+      <strong class="one-way"><i></i>One Way</strong>
+      <div class="fields">
+        <label>From<span class="input"><b>●</b><input id="origin" placeholder="City or station" autocomplete="off" required></span><span id="originOptions" class="suggestions" role="listbox" hidden></span></label>
+        <button id="swap" class="swap" type="button" aria-label="Swap departure and arrival">⇄</button>
+        <label>To<span class="input"><b>●</b><input id="destination" placeholder="City or station" autocomplete="off" required></span><span id="destinationOptions" class="suggestions" role="listbox" hidden></span></label>
+        <label>Departure<span class="input"><b>▣</b><input id="date" type="date" required></span></label>
+        <button class="action" type="submit">Search</button>
       </div>
-    </aside>
-
-    <script src="app.js"></script>
-  </body>
+      <div class="filters"><strong>Filters</strong><label>Leave after<input id="timeFrom" type="time" value="00:00"></label><label>Leave before<input id="timeTo" type="time" value="23:59"></label><label class="check"><input id="direct" type="checkbox">Direct only</label><label>Sort by<select id="sort"><option value="departure">Departure</option><option value="price">Lowest price</option><option value="duration">Shortest trip</option></select></label></div>
+      <p id="error" class="error" role="alert" hidden></p>
+    </form>
+  </section>
+  <section class="results-area" aria-label="Trip results">
+    <p id="empty" class="empty">Pick cities and a date. Available departures will appear here.</p>
+    <p id="loading" class="loading" hidden><i></i>Checking FlixBus departures...</p>
+    <div id="results" class="results" aria-live="polite"></div>
+  </section>
+</main>
+<div id="backdrop" class="backdrop" hidden></div>
+<aside id="panel" aria-labelledby="seatTitle" hidden>
+  <header><div><h2 id="seatTitle">Seat Reservation</h2><p id="route"></p></div><button id="close" aria-label="Close seat map">×</button></header>
+  <nav id="tabs" role="tablist"></nav>
+  <p id="seatLoading" class="loading"><i></i>Loading the vehicle...</p><p id="seatError" class="error" hidden></p>
+  <div id="seatContent" hidden><div id="legend" class="legend"></div><div id="vehicle" class="vehicle" role="grid"></div><footer><div><strong id="count"></strong><small>Live snapshot from FlixBus</small></div><button id="refresh">Refresh</button></footer></div>
+</aside>
+<script src="app.js"></script>
+</body>
 </html>
